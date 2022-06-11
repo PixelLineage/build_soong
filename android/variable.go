@@ -71,6 +71,15 @@ type variableProperties struct {
 			Enabled proptools.Configurable[bool] `android:"arch_variant,replace_instead_of_append"`
 		} `android:"arch_variant"`
 
+		Malloc_use_scudo struct {
+			Cflags              []string `android:"arch_variant"`
+			Shared_libs         []string `android:"arch_variant"`
+			Whole_static_libs   []string `android:"arch_variant"`
+			Exclude_static_libs []string `android:"arch_variant"`
+			Srcs                []string `android:"arch_variant"`
+			Header_libs         []string `android:"arch_variant"`
+		} `android:"arch_variant"`
+
 		Malloc_low_memory struct {
 			Cflags              []string `android:"arch_variant"`
 			Shared_libs         []string `android:"arch_variant"`
@@ -81,7 +90,7 @@ type variableProperties struct {
 			Header_libs         []string `android:"arch_variant"`
 		} `android:"arch_variant"`
 
-		Malloc_low_memory_libc32 struct {
+		Malloc_use_jemalloc struct {
 			Cflags              []string `android:"arch_variant"`
 			Shared_libs         []string `android:"arch_variant"`
 			Whole_static_libs   []string `android:"arch_variant"`
@@ -304,6 +313,8 @@ type ProductVariables struct {
 	Unbundled_build_image        *bool    `json:",omitempty"`
 	Always_use_prebuilt_sdks     *bool    `json:",omitempty"`
 	Skip_boot_jars_check         *bool    `json:",omitempty"`
+	Malloc_use_scudo             *bool    `json:",omitempty"`
+	Malloc_use_jemalloc          *bool    `json:",omitempty"`
 	Malloc_low_memory            *bool    `json:",omitempty"`
 	Malloc_low_memory_libc32     *bool    `json:",omitempty"`
 	Malloc_zero_contents         *bool    `json:",omitempty"`
@@ -341,8 +352,6 @@ type ProductVariables struct {
 	EnableCFI       *bool    `json:",omitempty"`
 	CFIExcludePaths []string `json:",omitempty"`
 	CFIIncludePaths []string `json:",omitempty"`
-
-	DisableScudo *bool `json:",omitempty"`
 
 	MemtagHeapExcludePaths      []string `json:",omitempty"`
 	MemtagHeapAsyncIncludePaths []string `json:",omitempty"`
@@ -749,8 +758,9 @@ func (v *ProductVariables) SetDefaultConfig() {
 		AAPTCharacteristics: stringPtr("nosdcard"),
 		AAPTPrebuiltDPI:     []string{"xhdpi", "xxhdpi"},
 
+		Malloc_use_scudo:             boolPtr(false),
 		Malloc_low_memory:            boolPtr(false),
-		Malloc_low_memory_libc32:     boolPtr(false),
+		Malloc_use_jemalloc:          boolPtr(true),
 		Malloc_zero_contents:         boolPtr(true),
 		Malloc_pattern_fill_contents: boolPtr(false),
 		Safestack:                    boolPtr(false),
