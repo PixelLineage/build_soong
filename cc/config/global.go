@@ -193,6 +193,7 @@ var (
 		"-fuse-ld=lld",
 		"-Wl,--icf=safe",
 		"-Wl,--no-demangle",
+		"-O3",
 	}
 
 	deviceGlobalCppflags = []string{
