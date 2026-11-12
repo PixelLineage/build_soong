@@ -84,7 +84,9 @@ var (
 			"-mcpu=cortex-a55",
 		},
 		"cortex-a76": []string{
-			"-mcpu=cortex-a76+crypto+crc",
+			// Use the cortex-a75 because some AOSP repos still use
+			// -no-integrated-as and binutils doesn't know the a76.
+			"-mcpu=cortex-a75",
 		},
 		"kryo": []string{
 			"-mcpu=kryo",
